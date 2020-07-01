@@ -21,10 +21,21 @@ public class CheckItemServiceImpl implements CheckItemService{
         checkItemDao.add(checkItem);
     }
 
-    @Override
+
     public PageResult pageQuery(Integer currentPage, Integer pageSize, String queryString) {
         PageHelper.startPage(currentPage,pageSize);
         Page<CheckItem> page = checkItemDao.selectByCondition(queryString);
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+
+    public void deleteById(Integer id) throws RuntimeException{
+        //查询当前检查项是否和检查组关联
+        long count = checkItemDao.findCountByCheckItemId(id);
+        if(count > 0){
+            //当前检查项被引用，不能删除
+            throw new RuntimeException("当前检查项被引用，不能删除");
+        }
+        checkItemDao.deleteById(id);
     }
 }

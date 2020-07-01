@@ -7,10 +7,7 @@ import com.quan.entity.QueryPageBean;
 import com.quan.entity.Result;
 import com.quan.pojo.CheckItem;
 import com.quan.service.CheckItemService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/checkitem")
@@ -36,4 +33,17 @@ public class CheckItemController {
                 queryPageBean.getQueryString());
         return pageResult;
     }
+    @RequestMapping("/deleteById")
+    public Result deleteById(Integer id){
+        try {
+            checkItemService.deleteById(id);
+        }catch (RuntimeException e){
+            return new Result(false,e.getMessage());
+        }catch (Exception e){
+            return new Result(false, MessageConstant.DELETE_CHECKITEM_FAIL);
+        }
+        return new Result(true,MessageConstant.DELETE_CHECKITEM_SUCCESS);
+    }
+
+
 }
