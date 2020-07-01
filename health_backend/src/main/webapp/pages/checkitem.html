@@ -225,6 +225,8 @@
             },
             //钩子函数，VUE对象初始化完成后自动执行
             created() {
+                //this function will be excurted;
+                this.findPage()
             },
             methods: {
                 //编辑
@@ -232,22 +234,63 @@
                 },
                 //添加
                 handleAdd () {
+                    //validation first
+                    this.$refs['dataAddForm'].validate((valid) => {
+                        // if pass then use axios submite the form
+                        if(valid){
+                            axios.post("/checkitem/add.do",this.formData).then((res) => {
+                                if(res.data.flag){
+                                    //get message after success
+                                    this.$message({
+                                        type: 'success',
+                                        message : res.data.message
+                                    });
+                                    //close the dialog
+                                    this.dialogFormVisible = false;
+                                } else {
+                                    // get message
+                                    this.$message.error(res.data.message);
+                                }
+                            }).finally(
+                                () => {
+                                   this.findPage();
+                                }
+                            )
+                        }
+                    } )
+                    // if pass then use axios submite the form
+                    //if can not pass then get the error message
                 },
                 //分页查询
                 findPage() {
+                    //create a json object to get pages
+                    var param = {
+                        currentPage:this.pagination.currentPage,
+                        pageSize: this.pagination.pageSize,
+                        queryString:this.pagination.queryString
+                    }
+                    axios.post("/checkitem/findPage.do",param).then((res) => {
+                        this.pagination.total = res.data.total;
+                        this.dataList = res.data.rows;
+                    });
                 },
                 // 重置表单
                 resetForm() {
+                    this.formData = {};
                 },
                 // 弹出添加窗口
                 handleCreate() {
                     this.dialogFormVisible = true;
+                    //clear all data showned before
+                    this.resetForm();
                 },
                 // 弹出编辑窗口
                 handleUpdate(row) {
                 },
                 //切换页码
                 handleCurrentChange(currentPage) {
+                    this.pagination.currentPage = currentPage;
+                    this.findPage();
                 },
                 // 删除
                 handleDelete(row) {

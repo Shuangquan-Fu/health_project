@@ -84,6 +84,21 @@ public class CheckItem implements Serializable {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return "CheckItem{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age='" + age + '\'' +
+                ", price=" + price +
+                ", type='" + type + '\'' +
+                ", remark='" + remark + '\'' +
+                ", attention='" + attention + '\'' +
+                '}';
+    }
+
     public void setType(String type) {
         this.type = type;
     }
