@@ -11,5 +11,6 @@ public interface CheckItemDao {
     public Page<CheckItem> selectByCondition(String queryString);
     public void deleteById(Integer id);
     public long findCountByCheckItemId(Integer checkItemId);
-
+    public CheckItem findById(Integer id);
+    public void edit(CheckItem checkItem);
 }

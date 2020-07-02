@@ -38,4 +38,12 @@ public class CheckItemServiceImpl implements CheckItemService{
         }
         checkItemDao.deleteById(id);
     }
+
+    public CheckItem findById(Integer id) {
+        return checkItemDao.findById(id);
+    }
+
+    public void edit(CheckItem checkItem) {
+        checkItemDao.edit(checkItem);
+    }
 }
