@@ -60,4 +60,8 @@
         where id = #{id}
     </update>
 
+<!--    find all checkitems-->
+    <select id="findAll" resultType="com.quan.pojo.CheckItem">
+  select * from t_checkitem
+</select>
 </mapper>
