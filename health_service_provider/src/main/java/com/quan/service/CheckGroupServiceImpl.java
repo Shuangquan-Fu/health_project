@@ -14,6 +14,7 @@ import java.util.Map;
 public class CheckGroupServiceImpl implements CheckGroupService{
     @Autowired
     private CheckGroupDao checkGroupDao;
+
     public void add(CheckGroup checkGroup, Integer[] checkitemIds) {
         checkGroupDao.add(checkGroup);
         setCheckGroupAndCheckItem(checkGroup.getId(),checkitemIds);

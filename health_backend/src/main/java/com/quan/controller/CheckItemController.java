@@ -69,7 +69,7 @@ public class CheckItemController {
     @RequestMapping("/findAll")
     public Result findAll(){
         List<CheckItem> checkItemList = checkItemService.findAll();
-        if(checkItemList == null && checkItemList.size() > 0){
+        if(checkItemList != null && checkItemList.size() > 0){
             return new Result(true,MessageConstant.QUERY_CHECKITEM_FAIL,checkItemList);
         }
         return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);

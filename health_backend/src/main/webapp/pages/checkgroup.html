@@ -285,18 +285,25 @@
                 },
                 //添加
                 handleAdd () {
-                    axios.post("/checkgroup/add.do?checkitemIds=" + this.checkitemIds, this.formData).then((res) => {
-                        this.dialogFormVisible = false;
-                        if(res.data.flags){
-                            this.$message({
-                                message : res.data.message,
-                                type : 'success'
-                            });
-                        } else {
-                            // false not add
-                            this.$message.error(res.data.message);
-                        }
-                    }).finally(() => {
+                    //发送ajax请求将模型数据提交到后台处理
+                    axios.post(
+                        "/checkgroup/add.do?checkitemIds=" + this.checkitemIds,
+                        this.formData
+                    )
+                        .then((response)=> {
+                            //关闭新增窗口
+                            this.dialogFormVisible = false;
+                            if(response.data.flag){
+                                //新增成功，弹出成功提示
+                                this.$message({
+                                    message: response.data.error,
+                                    type: 'success'
+                                });
+                            }else{
+                                //新增失败，弹出错误提示
+                                this.$message.error(response.data.message);
+                            }
+                        }).finally(()=> {
                         this.findPage();
                     });
                 },
