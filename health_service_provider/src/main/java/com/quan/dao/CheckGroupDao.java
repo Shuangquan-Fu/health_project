@@ -14,4 +14,5 @@ public interface CheckGroupDao {
     List<Integer> findCheckItemIdsByCheckGroupId(Integer id);
     void deleteAssociation(Integer id);
     void edit(CheckGroup checkGroup);
+    void delete(Integer id);
 }

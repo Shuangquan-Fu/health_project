@@ -60,4 +60,11 @@ public class CheckGroupServiceImpl implements CheckGroupService{
         //then edit checkGroup
         checkGroupDao.edit(checkGroup);
     }
+
+    @Override
+    public void delete(Integer id) {
+        //clear all relationship
+        checkGroupDao.deleteAssociation(id);
+        checkGroupDao.delete(id);
+    }
 }

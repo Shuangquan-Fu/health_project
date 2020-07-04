@@ -56,4 +56,7 @@
         </set>
         where id = #{id}
     </update>
+    <delete id="delete" parameterType="int">
+        delete from t_checkgroup where id = #{id}
+    </delete>
 </mapper>

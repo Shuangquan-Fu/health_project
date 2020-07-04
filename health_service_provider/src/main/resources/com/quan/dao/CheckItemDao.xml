@@ -18,15 +18,15 @@
 
     <!--删除-->
     <delete id="deleteById" parameterType="int">
-    delete from t_checkitem where id = #{id}
+        delete from t_checkitem where id = #{id}
     </delete>
     <!--根据检查项id查询中间关系表-->
     <select id="findCountByCheckItemId" resultType="long" parameterType="int">
-     select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id}
+        select count(*) from t_checkgroup_checkitem where checkitem_id = #{checkitem_id}
     </select>
 
     <select id="findById" parameterType="int" resultType="com.quan.pojo.CheckItem">
-    select * from t_checkitem where id = #{id}
+        select * from t_checkitem where id = #{id}
     </select>
 
     <update id="edit" parameterType="com.quan.pojo.CheckItem">
@@ -62,6 +62,6 @@
 
 <!--    find all checkitems-->
     <select id="findAll" resultType="com.quan.pojo.CheckItem">
-  select * from t_checkitem
-</select>
+        select * from t_checkitem
+    </select>
 </mapper>
