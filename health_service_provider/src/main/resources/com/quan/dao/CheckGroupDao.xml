@@ -59,4 +59,7 @@
     <delete id="delete" parameterType="int">
         delete from t_checkgroup where id = #{id}
     </delete>
+    <select id="findAll" resultType="com.quan.pojo.CheckGroup">
+        select * from t_checkgroup
+    </select>
 </mapper>
