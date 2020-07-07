@@ -62,4 +62,7 @@
     <select id="findAll" resultType="com.quan.pojo.CheckGroup">
         select * from t_checkgroup
     </select>
+    <select id="findCountGroup" parameterType="int">
+        select count(*) from t_setmeal_checkgroup where checkgroup_id = #{id}
+    </select>
 </mapper>

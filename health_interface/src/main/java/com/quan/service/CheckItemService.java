@@ -13,4 +13,5 @@ public interface CheckItemService {
     public CheckItem findById(Integer id);
     public void edit(CheckItem checkItem);
     public List<CheckItem> findAll();
+
 }

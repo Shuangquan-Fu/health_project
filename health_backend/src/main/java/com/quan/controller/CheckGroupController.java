@@ -66,9 +66,11 @@ public class CheckGroupController {
     }
     @RequestMapping("/deleteById")
     public Result delete( Integer id){
-        try{
+        try {
             checkGroupService.delete(id);
-        } catch (Exception e){
+        }catch (RuntimeException e){
+            return new Result(false,e.getMessage());
+        }catch (Exception e){
             return new Result(false,MessageConstant.DELETE_CHECKGROUP_FAIL);
         }
         return new Result(true,MessageConstant.DELETE_CHECKGROUP_SUCCESS);

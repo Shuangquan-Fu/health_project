@@ -16,4 +16,5 @@ public interface CheckGroupDao {
     void edit(CheckGroup checkGroup);
     void delete(Integer id);
     List<CheckGroup> findAll();
+    long findCountGroup(Integer id);
 }

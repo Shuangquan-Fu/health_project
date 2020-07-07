@@ -64,6 +64,11 @@ public class CheckGroupServiceImpl implements CheckGroupService{
     @Override
     public void delete(Integer id) {
         //clear all relationship
+        long time = checkGroupDao.findCountGroup(id);
+        if(time > 0){
+            //当前检查项被引用，不能删除
+            throw new RuntimeException("当前检查项被引用，不能删除");
+        }
         checkGroupDao.deleteAssociation(id);
         checkGroupDao.delete(id);
     }

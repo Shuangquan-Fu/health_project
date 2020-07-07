@@ -13,6 +13,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -48,9 +49,37 @@ public class SetmealServiceImpl implements SetmealService{
     }
 
     @Override
+    public Setmeal findById(Integer id) {
+        return setmealDao.findById(id);
+    }
+
+    @Override
     public PageResult pageQuery(Integer currentPage, Integer pageSize, String queryString) {
         PageHelper.startPage(currentPage,pageSize);
         Page<Setmeal> page = setmealDao.selectByCondition(queryString);
         return new PageResult(page.getTotal(),page.getResult());
+    }
+
+    @Override
+    public List<Integer> findCheckGroup(Integer id) {
+        List<Integer> checkGroupIds = setmealDao.findCheckGroupIds(id);
+        return checkGroupIds;
+    }
+
+    @Override
+    public void edit(Setmeal setmeal, Integer[] ids) {
+        //edit
+        //clear all relationship
+
+        setmealDao.deleteAssosiation(setmeal.getId());
+        setSetmealAndCheckGroup(setmeal.getId(),ids);
+        setmealDao.edit(setmeal);
+        //set new realtionship
+    }
+
+    @Override
+    public void delete(Integer id) {
+        setmealDao.deleteAssosiation(id);
+        setmealDao.delete(id);
     }
 }
