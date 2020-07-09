@@ -67,6 +67,12 @@ public class SetmealServiceImpl implements SetmealService{
     }
 
     @Override
+    public List<Setmeal> findAll() {
+        List<Setmeal> all = setmealDao.findAll();
+        return all;
+    }
+
+    @Override
     public void edit(Setmeal setmeal, Integer[] ids) {
         //edit
         //clear all relationship

@@ -16,5 +16,6 @@ public interface SetmealDao {
     public void deleteAssosiation(Integer id);
     public void delete(Integer id);
     public long findCountSeal(Integer id);
+    public List<Setmeal> findAll();
 }
 

@@ -25,9 +25,7 @@
             where code = #{value} or name = #{value} or helpCode = #{value}
         </if>
     </select>
-    <select id="findById" parameterType="int" resultType="com.quan.pojo.Setmeal">
-        select * from t_setmeal where id = #{id}
-    </select>
+
     <select id="findCheckGroupIds" parameterType="int" resultType="int">
         select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{id}
     </select>
@@ -72,5 +70,28 @@
     </delete>
     <select id="findCountSeal" parameterType="int">
         select count(*) from t_setmeal_checkgroup where setmeal_id = #{id}
+    </select>
+    <select id="findById" resultMap="findByIdResultMap">
+         select * from t_setmeal  where id=#{id}
+    </select>
+    <resultMap type="com.quan.pojo.Setmeal" id="findByIdResultMap" extends="baseResultMap">
+        <collection property="checkGroups" ofType="com.quan.pojo.CheckGroup" column="id"
+                    select="com.quan.dao.CheckGroupDao.findCheckGroupBySetmealId">
+        </collection>
+    </resultMap>
+    <resultMap type="com.quan.pojo.Setmeal" id="baseResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="code" property="code"/>
+        <result column="helpCode" property="helpCode"/>
+        <result column="sex" property="sex"/>
+        <result column="age" property="age"/>
+        <result column="price" property="price"/>
+        <result column="remark" property="remark"/>
+        <result column="attention" property="attention"/>
+        <result column="img" property="img"/>
+    </resultMap>
+    <select id="findAll" resultType="com.quan.pojo.Setmeal">
+        select * from t_setmeal
     </select>
 </mapper>
