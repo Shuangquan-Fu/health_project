@@ -116,9 +116,25 @@
                     },
                     //提交预约
                     submitOrder(){
+                        if(!checkIdCard(this.orderInfo.idCard)){
+                            this.$message.error('身份证号码输入错误，请重新输入');
+                            return ;
+                        }
+                        axios.post("/order/submit.do",this.orderInfo).then((response) => {
+                            if(response.data.flag){
+                                //预约成功，跳转到预约成功页面
+                                window.location.href="orderSuccess.html?orderId=" + response.data.data;
+                            }else{
+                                //预约失败，提示预约失败信息
+                                this.$message.error(response.data.message);
+                            }
+                        });
                     }
                 },
                 mounted(){
+                    axios.post("/setmeal/findById.do?id=" + id).then((response) => {
+                        this.setmeal = response.data.data;
+                    });
                 }
             });
         </script>
