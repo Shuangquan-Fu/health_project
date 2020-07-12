@@ -29,35 +29,36 @@ public class MemberController {
     @Reference
     private MemberService memberService;
     @RequestMapping("/login")
-    public Result login(HttpServletResponse response, @RequestBody Map map){
+    public Result login(HttpServletResponse response, @RequestBody Map map) {
         String telephone = (String) map.get("telephone");
         String validateCode = (String) map.get("validateCode");
         //从Redis中获取缓存的验证码
         Jedis jedis = jedisPool.getResource();
-        String codeInRedis = jedis.get(telephone+ RedisMessageConstant.SENDTYPE_LOGIN);
-        if(codeInRedis == null || !codeInRedis.equals(validateCode)){
+        String codeInRedis = jedis.get(telephone + RedisMessageConstant.SENDTYPE_LOGIN);
+        if (codeInRedis == null || !codeInRedis.equals(validateCode)) {
             jedis.close();
             //验证码输入错误
             return new Result(false, MessageConstant.VALIDATECODE_ERROR);
-        }else{
+        } else {
             Member member = memberService.findByTelephone(telephone);
-            if(member == null){
+            if (member == null) {
                 //当前用户不是会员，自动完成注册
                 member = new Member();
                 member.setPhoneNumber(telephone);
                 member.setRegTime(new Date());
                 memberService.add(member);
             }
-            Cookie cookie = new Cookie("login_member_telephone",telephone);
+            Cookie cookie = new Cookie("login_member_telephone", telephone);
             cookie.setPath("/");//路径
-            cookie.setMaxAge(60*60*24*30);//有效期30天
+            cookie.setMaxAge(60 * 60 * 24 * 30);//有效期30天
             response.addCookie(cookie);
             //保存会员信息到Redis中
             String json = JSON.toJSON(member).toString();
-            jedis.setex(telephone,60*30,json);
+            jedis.setex(telephone, 60 * 30, json);
             jedis.close();
-            return new Result(true,MessageConstant.LOGIN_SUCCESS);
+            return new Result(true, MessageConstant.LOGIN_SUCCESS);
         }
     }
+  }
 
-}
+

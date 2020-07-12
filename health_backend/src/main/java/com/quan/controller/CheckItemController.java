@@ -7,6 +7,7 @@ import com.quan.entity.QueryPageBean;
 import com.quan.entity.Result;
 import com.quan.pojo.CheckItem;
 import com.quan.service.CheckItemService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CheckItemController {
     @Reference
     private CheckItemService checkItemService;
 
+    @PreAuthorize("hasAuthority('CHECKITEM_ADD')")
     @RequestMapping("/add")
     public Result add(@RequestBody CheckItem checkItem){
         try {
@@ -27,6 +29,8 @@ public class CheckItemController {
         }
         return new Result(true,MessageConstant.ADD_CHECKGROUP_SUCCESS);
     }
+
+    @PreAuthorize("hasAuthority('CHECKITEM_QUERY')")
     @RequestMapping("/findPage")
     public PageResult findPage(@RequestBody QueryPageBean queryPageBean){
         PageResult pageResult = checkItemService.pageQuery(
@@ -35,6 +39,7 @@ public class CheckItemController {
                 queryPageBean.getQueryString());
         return pageResult;
     }
+    @PreAuthorize("hasAuthority('CHECKITEM_DELETE')")
     @RequestMapping("/deleteById")
     public Result deleteById(Integer id){
         try {
@@ -57,6 +62,7 @@ public class CheckItemController {
             return new Result(false, MessageConstant.QUERY_CHECKITEM_FAIL);
         }
     }
+    @PreAuthorize("hasAuthority('CHECKITEM_EDIT')")
     @RequestMapping("/edit")
     public Result edit(@RequestBody CheckItem checkItem){
         try{

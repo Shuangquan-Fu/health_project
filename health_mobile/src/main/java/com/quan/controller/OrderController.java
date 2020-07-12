@@ -27,7 +27,7 @@ public class OrderController {
     @Autowired
     private JedisPool jedisPool;
 
-    @RequestMapping("findById")
+    @RequestMapping("/findById")
     public Result findById(Integer id){
         try{
             Map map = orderService.findById(id);
@@ -36,12 +36,13 @@ public class OrderController {
             e.printStackTrace();
             return new Result(false,MessageConstant.QUERY_ORDER_FAIL);
         }
+
     }
 
     @RequestMapping("/submit")
     public Result submitOrder(@RequestBody Map map){
         //check the phone use redis
-        String telephone = (String) map.get("telephone");
+        String telephone = (String)map.get("telephone");
         Jedis jedis = jedisPool.getResource();
         String codeInRedis = jedis.get(telephone+ RedisMessageConstant.SENDTYPE_ORDER);
         jedis.close();
@@ -68,6 +69,7 @@ public class OrderController {
                 e.printStackTrace();
             }
         }
-        return result;
+
+        return null;
     }
 }

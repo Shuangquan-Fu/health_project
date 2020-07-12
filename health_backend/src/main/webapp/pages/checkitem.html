@@ -291,6 +291,8 @@
                 axios.post("/checkitem/findPage.do",param).then((res) => {
                     this.pagination.total = res.data.total;
                     this.dataList = res.data.rows;
+                }).catch((r)=>{
+                    this.showMessage(r);
                 });
             },
             // 重置表单
@@ -321,11 +323,11 @@
             },
             // 删除
             handleDelete(row) {
-                //alert(row.id);
-                this.$confirm("确认删除吗？","提示",{type:'warning'}).then(()=>{
-                    //点击确定按钮时只需此处代码
-                    //alert('用户点击的是确定按钮');
-                    axios.get("/checkitem/deleteById.do?id=" + row.id).then((res)=> {
+                this.$confirm('此操作将永久当前数据，是否继续?', '提示', {
+                    type: 'warning'
+                }).then(()=>{
+                    //点击确定按钮执行此代码
+                    axios.get("/checkitem/delete.do?id=" + row.id).then((res)=> {
                         if(!res.data.flag){
                             //删除失败
                             this.$message.error(res.data.message);
@@ -335,11 +337,25 @@
                                 message: res.data.message,
                                 type: 'success'
                             });
-                            //调用分页，获取最新分页数据
                             this.findPage();
                         }
+                    }).catch((r)=>{
+                        this.showMessage(r);
                     });
+                }).catch(()=> {
+                    //点击取消按钮执行此代码
+                    this.$message('操作已取消');
                 });
+            },
+            showMessage(r){
+                if(r == 'Error: Request failed with status code 403'){
+                    //权限不足
+                    this.$message.error('无访问权限');
+                    return;
+                }else{
+                    this.$message.error('未知错误');
+                    return;
+                }
             }
         }
     })
