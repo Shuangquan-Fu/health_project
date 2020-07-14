@@ -4,6 +4,7 @@ import com.quan.entity.PageResult;
 import com.quan.pojo.Setmeal;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SetmealService {
     public void add(Setmeal setmeal, Integer[] checkgroupIds);
@@ -13,4 +14,5 @@ public interface SetmealService {
     public void edit(Setmeal setmeal, Integer[] ids);
     public void delete(Integer id);
     public List<Setmeal> findAll();
+    public List<Map<String,Object>> findSetmealCount();
 }
